@@ -2,9 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from django.core.paginator import Paginator
 from django.db.models import Count
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse
 from django.utils.timezone import now
 
 from blog.models import Category, Comment, Post
@@ -136,7 +134,7 @@ def add_comment(request, post_id):
         comment.author = request.user
         comment.post = post
         comment.save()
-        return HttpResponseRedirect(reverse('blog:post_detail', args=(post.id,)))
+        return redirect('blog:post_detail', post_id)
     return redirect('blog:post_detail', post_id)
 
 

@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class PostForm(forms.ModelForm):
-    '''Форма публикации.'''
+    """Форма публикации."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,7 +27,7 @@ class PostForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    '''Форма для комментариев'''
+    """Форма для комментариев"""
 
     class Meta:
         model = Comment
