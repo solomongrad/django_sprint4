@@ -1,8 +1,8 @@
-from core.models import IsPublishedCreatedAtModel
 from django.contrib.auth import get_user_model
 from django.db import models
 
 from .constants import MAX_LENGTH, OUTPUT_SLICE
+from core.models import CreatedAtModel, IsPublishedCreatedAtModel
 
 User = get_user_model()
 
@@ -37,6 +37,7 @@ class Location(IsPublishedCreatedAtModel):
 
 
 class Post(IsPublishedCreatedAtModel):
+    image = models.ImageField('Фото', upload_to='post_images', blank=True)
     title = models.CharField('Заголовок', max_length=MAX_LENGTH)
     text = models.TextField('Текст')
     pub_date = models.DateTimeField('Дата и время публикации',
@@ -64,7 +65,6 @@ class Post(IsPublishedCreatedAtModel):
         verbose_name='Категория',
         related_name='posts'
     )
-    image = models.ImageField('Фото', upload_to='post_images', blank=True)
 
     class Meta:
         verbose_name = 'публикация'
@@ -75,15 +75,25 @@ class Post(IsPublishedCreatedAtModel):
         return self.title[:OUTPUT_SLICE]
 
 
-class Comment(models.Model):
+class Comment(CreatedAtModel):
     text = models.TextField('Текст комментария')
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comment'
+        verbose_name='Пост',
+        related_name='comments',
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор публикации',
+        related_name='comments',
+    )
 
     class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'Комментарии'
         ordering = ('created_at',)
+
+    def __str__(self):
+        return self.title[:OUTPUT_SLICE]
