@@ -72,11 +72,10 @@ def edit_post(request, post_id):
     if request.user != post.author:
         return redirect('blog:post_detail', post_id=post_id)
     form = PostForm(request.POST, instance=post, files=request.FILES or None)
-    if request.method == 'POST' and form.is_valid():
+    if form.is_valid():
         form.save()
         return redirect('blog:post_detail', post_id=post_id)
-    else:
-        form = PostForm(instance=post)
+    form = PostForm(instance=post)
     return render(request, 'blog/create.html', {'form': form})
 
 

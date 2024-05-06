@@ -3,7 +3,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from .views import CreateView
+from pages.views import CreateView
 
 handler404 = 'pages.views.page_not_found'
 handler500 = 'pages.views.server_error'

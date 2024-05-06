@@ -96,4 +96,4 @@ class Comment(CreatedAtModel):
         ordering = ('created_at',)
 
     def __str__(self):
-        return self.title[:OUTPUT_SLICE]
+        return self.text[:OUTPUT_SLICE]
